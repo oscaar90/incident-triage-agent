@@ -1,0 +1,42 @@
+{
+  "scenario": 2,
+  "timestamp": "2026-03-15T10:22:44Z",
+  "service": "payments-api",
+  "environment": "production",
+  "context": {
+    "note": "Sin deploys recientes, sin batch jobs activos, tr\u00e1fico normal",
+    "last_deploy": "2026-03-14T09:20:00Z",
+    "recurring_pattern": false,
+    "alert_started": "2026-03-15T14:38:00Z"
+  },
+  "metrics": {
+    "cpu_percent": 94.1,
+    "memory_percent": 88.7,
+    "latency_p50_ms": 890,
+    "latency_p95_ms": 3200,
+    "latency_p99_ms": 8400,
+    "latency_p99_baseline_ms": 2100,
+    "latency_delta_percent": 300,
+    "error_rate_percent": 8.3,
+    "error_rate_baseline_percent": 0.15,
+    "requests_per_second": 310,
+    "requests_per_second_baseline": 290,
+    "db_connections_active": 198,
+    "db_connections_max": 200,
+    "db_connection_wait_ms": 4500,
+    "db_query_timeout_count_last_5min": 847,
+    "http_5xx_count_last_5min": 1203,
+    "http_5xx_baseline_per_5min": 22
+  },
+  "active_jobs": [],
+  "downstream_services": {
+    "fraud-detection": {
+      "status": "degraded",
+      "latency_p99_ms": 5100
+    },
+    "notification-service": {
+      "status": "healthy",
+      "latency_p99_ms": 180
+    }
+  }
+}

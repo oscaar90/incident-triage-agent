@@ -1,0 +1,17 @@
+{
+  "incident": true,
+  "severity": "critical",
+  "confidence": 97,
+  "justification": "Degradación en cascada confirmada con origen en agotamiento del pool de conexiones DB. El pool está al 99% (198/200) con wait time de 4500ms, generando 847 query timeouts en los últimos 5 minutos. Esto se propaga directamente al error rate (8.3% vs baseline 0.15% — 55x) y a la latencia p99 (8400ms vs 2100ms baseline — 4x). El servicio downstream fraud-detection ya está degradado (p99 5100ms), confirmando que la cascada ha cruzado límites de servicio. Ninguna explicación de ruido aplica: no hay batch jobs activos, el último deploy fue hace 25 horas (bien fuera de la ventana de 30 min), y el volumen de tráfico es normal (310 rps vs 290 baseline). Con 7 señales independientes correlacionadas y sin contexto mitigante, la declaración de incidente es inevitable.",
+  "signals": [
+    "DB connection pool agotado: 198/200 activas (99%)",
+    "DB connection wait time: 4500ms — requests bloqueados esperando conexión",
+    "DB query timeouts últimos 5 min: 847 (baseline ~0)",
+    "Error rate: 8.3% vs baseline 0.15% (55x baseline)",
+    "HTTP 5xx últimos 5 min: 1203 vs baseline 22 (55x baseline)",
+    "Latencia p99: 8400ms vs baseline 2100ms (4x baseline)",
+    "Downstream fraud-detection: status=degraded, p99=5100ms",
+    "CPU: 94.1% — presión consistente con connection pool exhaustion + retries",
+    "Memoria: 88.7% — consistente con acumulación de requests en cola"
+  ]
+}
